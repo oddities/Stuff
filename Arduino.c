@@ -9,6 +9,8 @@
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 #define OLED_RESET     4 // Reset pin # (or -1 if sharing Arduino reset pin)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+const int count = 0;
+
 void setup() {
 Serial.begin(9600);
 Serial.println("sys started");
@@ -65,46 +67,58 @@ display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Address 0x3D for 128x64
   pinMode(13, OUTPUT);
   pinMode(3,INPUT_PULLUP);
 }
- void loop(){
-  If (digitalRead(2)==LOW)
-  {
-     Serial.println("in side 1st if main");
-    display.clearDisplay();
- display.setTextSize(2);
- display.setTextColor(WHITE);
- display.setCursor(2,3);
- display.println("Nh3:\n NO3:\n soil:\n Temp:");
- display.display();
- delay(3000);
- display.clearDisplay();
- display.setTextSize(2);
- display.setTextColor(WHITE);
- display.setCursor(2,3);
- display.println("data sent to cloud");
- display.display();
- delay(3000);
-  }
-  else if (digitalRead(3)==LOW)
-  {
-    Serial.println("fV loop");
-    display.clearDisplay();
- display.setTextSize(2);
- display.setTextColor(WHITE);
- display.setCursor(2,3);
- display.println("1)Fruits\n2)Vegetables");
- display.display();
- delay(3000);
- If (digitalRead(3)==LOW)
-  {
-    Serial.println("Apple banana loop");
-    display.clearDisplay();
- display.setTextSize(2);
- display.setTextColor(WHITE);
- display.setCursor(2,3);
- display.println("1)Apple\n2)Banana");
- display.display();
- delay(3000);
+ void loop()
+ {	 
+	If (digitalRead(2)==LOW)
+	{
+		Serial.println("in side 1st if main");
+		display.clearDisplay();
+		display.setTextSize(2);
+		display.setTextColor(WHITE);
+		display.setCursor(2,3);
+		display.println("Nh3:\n NO3:\n soil:\n Temp:");
+		display.display();
+		delay(3000);
+		display.clearDisplay();
+		display.setTextSize(2);
+		display.setTextColor(WHITE);
+		display.setCursor(2,3);
+		display.println("data sent to cloud");
+		display.display();
+		delay(3000);
+	}
+	static int button1_last = 0;
+	int button1_state = digitalRead(3);
+	while (button1_state != button1_last)
+	{
+		count++;
+		button1_last = button1_state;
+		if (count >= 3) 
+		{
+		   count = 0;
+		}
+	}
+	switch(count)
+	{
+		case(1):
+			Serial.println("fV loop");
+			display.clearDisplay();
+			display.setTextSize(2);
+			display.setTextColor(WHITE);
+			display.setCursor(2,3);
+			display.println("1)Fruits\n2)Vegetables");
+			display.display();
+			delay(3000);
+		break;
+		case(2):
+			Serial.println("Apple banana loop");
+			display.clearDisplay();
+			display.setTextSize(2);
+			display.setTextColor(WHITE);
+			display.setCursor(2,3);
+			display.println("1)Apple\n2)Banana");
+			display.display();
+			delay(3000);
+		break;
+	}
 }
-  }
-  
-
