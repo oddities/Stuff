@@ -88,11 +88,13 @@ display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Address 0x3D for 128x64
 		delay(3000);
 	}
 	static int button1_last = 0;
-	int button1_state = digitalRead(3);
-	while (button1_state != button1_last)
+	int button1_state = 1;
+	If (digitalRead(3)==LOW)
 	{
+	//while (button1_state != button1_last)
+	
 		count++;
-		button1_last = button1_state;
+		//button1_last = button1_state;
 		if (count >= 3) 
 		{
 		   count = 0;
